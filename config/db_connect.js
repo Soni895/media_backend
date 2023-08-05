@@ -5,7 +5,7 @@ const url=process.env.db_url;
 
 exports.db_connect=()=>
 {
-    console.log(url,"hi")
+
     mongoose.connect(url,
         {
            
