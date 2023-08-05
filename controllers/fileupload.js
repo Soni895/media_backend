@@ -43,10 +43,30 @@ exports.imgupload=async (req,res)=>
 try {
     
 const {name,tags,email}=req.body;
+console.log(name,tags,email);
+const file=req.files.imgfile;
+console.log(file);
+
+const support=["jpg","jpeg","png"];
+const file_type=`${file.name.split(".")[1]}`;
+console.log(type);
+if(support.includes(file_type))
+{
+
+}
+else{
+    return res.json(
+        {
+            status:"unsuccessful",
+            error:"file not support"
+        }
+    )
+}
+
 
 } catch (error) {
     console.log(error);
-    res.json(
+  return  res.json(
         {
             status:false,
             message:"file upload successful"
