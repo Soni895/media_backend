@@ -22,3 +22,4 @@ app.get("*",(req,res)=>
 
 });
 db_connect();
+cloudinary();
