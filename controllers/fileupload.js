@@ -48,7 +48,7 @@ const file=req.files.imgfile;
 console.log(file);
 
 const support=["jpg","jpeg","png"];
-const file_type=`${file.name.split(".")[1]}`;
+const file_type=`${file.name.split(".")[1].tolowerCase()}`;
 console.log(type);
 if(support.includes(file_type))
 {
