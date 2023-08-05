@@ -36,3 +36,22 @@ exports.localfileupload=(req,res)=>
     }
 
 }
+
+// image upload handler
+exports.imgupload=async (req,res)=>
+{
+try {
+    
+const {name,tags,email}=req.body;
+
+} catch (error) {
+    console.log(error);
+    res.json(
+        {
+            status:false,
+            message:"file upload successful"
+        }
+    )
+}
+
+}
