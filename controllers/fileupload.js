@@ -39,7 +39,10 @@ exports.localfileupload=(req,res)=>
 }
 async function fileupload(file,folder)
 {
-    const option={folder};
+    const option={
+        resource_type: 'auto',
+        folder
+    };
 
  
     return  response = await cloudinary.uploader.upload(file.tempFilePath,option);
@@ -110,7 +113,7 @@ exports.videoupload= async (req,res)=>
         console.log(file);
         const support=["mp4","mov"];
         const file_type=`${file.name.split(".")[1].toLowerCase()}`;
-    
+        console.log(file_type);
 
         // todo add upper limit for 5 mb in video
 
