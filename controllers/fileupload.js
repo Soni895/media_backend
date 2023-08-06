@@ -1,4 +1,5 @@
-const file=require("../models/file");
+const  cloudinary  = require("cloudinary").v2;
+const File=require("../models/file");
 exports.localfileupload=(req,res)=>
 {
     try {
@@ -36,6 +37,16 @@ exports.localfileupload=(req,res)=>
     }
 
 }
+async function fileupload(file,folder)
+{
+    // const option={folder};
+ 
+    return  response = await cloudinary.uploader.upload(req.file.buffer,
+        {
+            resource_type: 'auto',
+        });
+
+}
 
 // image upload handler
 exports.imgupload=async (req,res)=>
@@ -48,10 +59,28 @@ const file=req.files.imgfile;
 console.log(file);
 
 const support=["jpg","jpeg","png"];
-const file_type=`${file.name.split(".")[1].tolowerCase()}`;
-console.log(type);
+const file_type=`${file.name.split(".")[1].toLowerCase()}`;
+console.log(file_type);
 if(support.includes(file_type))
 {
+    console.log("file upload");
+    const response= await  fileupload(file,"media");
+    console.log("file uploaded");
+
+    const filedata= await File.create(
+        {
+            name,email,tags
+        }
+    )
+         res.status(500).json(
+        {
+            status:"uplaod successful",
+            response,
+            message: "file uploaded successfully"
+
+        }
+    )
+      
 
 }
 else{
@@ -66,12 +95,11 @@ else{
 
 } catch (error) {
     console.log(error);
-  return  res.json(
+    res.json(
         {
             status:false,
             message:"file upload successful"
         }
     )
 }
-
 }
