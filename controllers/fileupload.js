@@ -80,8 +80,6 @@ if(support.includes(file_type))
 
         }
     )
-      
-
 }
 else{
     return res.json(
