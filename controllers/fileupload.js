@@ -37,11 +37,12 @@ exports.localfileupload=(req,res)=>
     }
 
 }
-async function fileupload(file,folder)
+async function fileupload(file,folder,quality=100)
 {
     const option={
         resource_type: 'auto',
-        folder
+        folder,
+        quality,
     };
 
  
@@ -116,6 +117,13 @@ exports.videoupload= async (req,res)=>
         console.log(file_type);
 
         // todo add upper limit for 5 mb in video
+        const fileSizeInMB = file.size / (1024 * 1024); // Convert bytes to megabytes
+        if (fileSizeInMB > 15) {
+            return res.status(400).json({
+                status: false,
+                message: `File size exceeds the maximum limit of ${15} MB`,
+            });
+        }
 
       if(support.includes(file_type))
         {
@@ -135,6 +143,7 @@ exports.videoupload= async (req,res)=>
                     status:true,
                     response,
                     filedata,
+                    file,
                     message: "video uploaded successfully"
         
                 }
@@ -148,17 +157,7 @@ exports.videoupload= async (req,res)=>
             message:"file not support",
           
         })
-        }
-
-
-
-
-
-
-
-
-
-        
+        }        
     } catch (error) {
         
         console.log(error);
@@ -171,3 +170,60 @@ exports.videoupload= async (req,res)=>
     )
     }
 }
+// imgsizereducer handler create
+
+exports.imgsizereducer=async (req,res)=>
+{
+try {
+    
+const {name,tags,email}=req.body;
+// console.log(name,tags,email);
+const file=req.files.imgsizereducer;
+console.log(file);
+
+const support=["jpg","jpeg","png"];
+const file_type=`${file.name.split(".")[1].toLowerCase()}`;
+console.log(file_type);
+// compress using height and width attribute todo
+
+if(support.includes(file_type))
+{
+   
+    const response=  await fileupload(file,"media",10);
+
+    // console.log("file uploaded");
+
+    const filedata= await File.create(
+        {
+            name,email,tags,imgurl:response.secure_url
+        }
+    )
+         res.status(500).json(
+        {
+            status:true,
+            response,
+            filedata,
+            message: "image uploaded successfully"
+
+        }
+    )
+}
+else{
+    return res.json(
+        {
+            status:"unsuccessful",
+            error:"file not support"
+        }
+    )
+}
+} catch (error) {
+    console.log(error);
+    res.json(
+        {
+            status:false,
+            message:"file upload unsuccessful",
+            error:error
+        }
+    )
+}}
+
