@@ -68,7 +68,7 @@ if(support.includes(file_type))
 
     const filedata= await File.create(
         {
-            name,email,tags
+            name,email,tags,imgurl:response.secure_url
         }
     )
          res.status(500).json(
