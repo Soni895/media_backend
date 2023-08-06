@@ -52,7 +52,7 @@ exports.imgupload=async (req,res)=>
 try {
     
 const {name,tags,email}=req.body;
-console.log(name,tags,email);
+// console.log(name,tags,email);
 const file=req.files.imgfile;
 console.log(file);
 
@@ -76,7 +76,7 @@ if(support.includes(file_type))
             status:true,
             response,
             filedata,
-            message: "file uploaded successfully"
+            message: "image uploaded successfully"
 
         }
     )
@@ -89,8 +89,6 @@ else{
         }
     )
 }
-
-
 } catch (error) {
     console.log(error);
     res.json(
@@ -100,5 +98,73 @@ else{
             error:error
         }
     )
-}
+}}
+
+// video upload handler
+exports.videoupload= async (req,res)=>
+{
+    try {
+        const {name,email,tags}=req.body;
+
+        const file=req.files.videofile;
+        console.log(file);
+        const support=["mp4","mov"];
+        const file_type=`${file.name.split(".")[1].toLowerCase()}`;
+    
+
+        // todo add upper limit for 5 mb in video
+
+      if(support.includes(file_type))
+        {
+            console.log(file_type);
+            const response=  await fileupload(file,"media");
+
+            console.log("file uploaded");
+
+
+            const filedata= await File.create(
+                {
+                    name,email,tags,imgurl:response.secure_url
+                }
+            )
+                 res.status(500).json(
+                {
+                    status:true,
+                    response,
+                    filedata,
+                    message: "video uploaded successfully"
+        
+                }
+            );
+
+        }
+        else{
+            return res.status(400).json(
+        {
+            status:false,
+            message:"file not support",
+          
+        })
+        }
+
+
+
+
+
+
+
+
+
+        
+    } catch (error) {
+        
+        console.log(error);
+    res.status(400).json(
+        {
+            status:false,
+            message:"file upload unsuccessful",
+            error:error
+        }
+    )
+    }
 }
