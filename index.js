@@ -5,7 +5,12 @@ const {db_connect}=require("./config/db_connect");
 const {cloudinary}=require("./config/coloudinary");
 const fileupload=require("express-fileupload");
 const app=express();
-app.use(fileupload());
+app.use(fileupload(
+    {
+        useTempFiles : true,
+        tempFileDir : '/tmp/'
+    }
+));
 app.use(express.json());
 
 const router=require("./routes/fileupload");

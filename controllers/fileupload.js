@@ -11,7 +11,7 @@ exports.localfileupload=(req,res)=>
         const path=__dirname+"/files/"+Date.now()+`.${file.name.split(".")[1]}`;
 
      
-        console.log(`file path => ${path} and current path => ${__dirname} and file name ${__filename} `);
+        // console.log(`file path => ${path} and current path => ${__dirname} and file name ${__filename} `);
         file.mv(path,(error)=>
         {
             console.log(error);
@@ -30,7 +30,7 @@ exports.localfileupload=(req,res)=>
         res.json(
             {
                 status:false,
-                message:"file upload successful"
+                message:"file upload unsuccessful"
             }
         )
         
@@ -39,12 +39,10 @@ exports.localfileupload=(req,res)=>
 }
 async function fileupload(file,folder)
 {
-    // const option={folder};
+    const option={folder};
+
  
-    return  response = await cloudinary.uploader.upload(req.file.buffer,
-        {
-            resource_type: 'auto',
-        });
+    return  response = await cloudinary.uploader.upload(file.tempFilePath,option);
 
 }
 
@@ -63,9 +61,10 @@ const file_type=`${file.name.split(".")[1].toLowerCase()}`;
 console.log(file_type);
 if(support.includes(file_type))
 {
-    console.log("file upload");
-    const response= await  fileupload(file,"media");
-    console.log("file uploaded");
+   
+    const response=  await fileupload(file,"media");
+
+    // console.log("file uploaded");
 
     const filedata= await File.create(
         {
@@ -74,8 +73,9 @@ if(support.includes(file_type))
     )
          res.status(500).json(
         {
-            status:"uplaod successful",
+            status:true,
             response,
+            filedata,
             message: "file uploaded successfully"
 
         }
@@ -98,7 +98,8 @@ else{
     res.json(
         {
             status:false,
-            message:"file upload successful"
+            message:"file upload unsuccessful",
+            error:error
         }
     )
 }
