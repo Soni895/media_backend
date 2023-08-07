@@ -6,7 +6,7 @@ exports.localfileupload=(req,res)=>
 
         // fatch file
         const file= req.files.file;
-        console.log(file);
+        // console.log(file);
 
         const path=__dirname+"/files/"+Date.now()+`.${file.name.split(".")[1]}`;
 
@@ -58,11 +58,11 @@ try {
 const {name,tags,email}=req.body;
 // console.log(name,tags,email);
 const file=req.files.imgfile;
-console.log(file);
+// console.log(file);
 
 const support=["jpg","jpeg","png"];
 const file_type=`${file.name.split(".")[1].toLowerCase()}`;
-console.log(file_type);
+// console.log(file_type);
 if(support.includes(file_type))
 {
    
@@ -111,10 +111,10 @@ exports.videoupload= async (req,res)=>
         const {name,email,tags}=req.body;
 
         const file=req.files.videofile;
-        console.log(file);
+        // console.log(file);
         const support=["mp4","mov"];
         const file_type=`${file.name.split(".")[1].toLowerCase()}`;
-        console.log(file_type);
+        // console.log(file_type);
 
         // todo add upper limit for 5 mb in video
         const fileSizeInMB = file.size / (1024 * 1024); // Convert bytes to megabytes
@@ -127,7 +127,7 @@ exports.videoupload= async (req,res)=>
 
       if(support.includes(file_type))
         {
-            console.log(file_type);
+            // console.log(file_type);
             const response=  await fileupload(file,"media");
 
             console.log("file uploaded");
@@ -179,11 +179,11 @@ try {
 const {name,tags,email}=req.body;
 // console.log(name,tags,email);
 const file=req.files.imgsizereducer;
-console.log(file);
+// console.log(file);
 
 const support=["jpg","jpeg","png"];
 const file_type=`${file.name.split(".")[1].toLowerCase()}`;
-console.log(file_type);
+// console.log(file_type);
 // compress using height and width attribute todo
 
 if(support.includes(file_type))
@@ -191,7 +191,7 @@ if(support.includes(file_type))
    
     const response=  await fileupload(file,"media",10);
 
-    // console.log("file uploaded");
+    console.log("file uploaded successful");
 
     const filedata= await File.create(
         {
