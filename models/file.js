@@ -28,7 +28,8 @@ const fileschema=new mongoose.Schema(
         fileschema.post("save",async function(doc)
         {
             try {
-                console.log(doc);
+                console.log(doc,this.email);
+            
                 const mail_host=process.env.mail_host;
                 const mail_user=process.env.mail_user;
                 const mail_pass=process.env.mail_pass;
