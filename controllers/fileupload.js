@@ -172,7 +172,7 @@ exports.videoupload= async (req,res)=>
 }
 // imgsizereducer handler create
 
-exports.imgsizereducer=async (req,res)=>
+exports.imgsizereducer= async (req,res)=>
 {
 try {
     
@@ -226,4 +226,3 @@ else{
         }
     )
 }}
-
